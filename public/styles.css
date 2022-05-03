@@ -1,19 +1,19 @@
 *{
-    font-size: large;
-}
+    box-sizing: border-box;
 
+}
 .container-fluid{
     width: 100%;
     font-size: large;
 }
-/* h1{
-    font-weight: bolder;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    
-} */
+
+.lead {
+    font-size: larger;
+}
 body {
     padding-bottom: 100px;
     text-align: center;
+    font-size: large;
 }
 .image-logo{
    float:left;

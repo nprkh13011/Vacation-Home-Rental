@@ -7,7 +7,7 @@ const saltRounds = 10;
 function validateEmail(email){
    //email error checking
    //https://stackoverflow.com/questions/201323/how-can-i-validate-an-email-address-using-a-regular-expression
-    let re = /^[^\s@]+@([^\s@.,]+\.)+[^\s@.,]{2,}$/;
+   let re = /^[^\s@]+@([^\s@.,]+\.)+[^\s@.,]{2,}$/;
     if (re.test(email.trim()) === false){
         throw "INVALID EMAIL! TRY AGAIN!"
     }
@@ -26,46 +26,64 @@ const exportedMethods = {
     //INCOMPLETE --- Authentication
     async createUser(username, password, firstname, lastname, email, age, phone){ //include authentication
         const hashedPass = await bcrypt.hash(password, saltRounds);
-        // console.log(hash);
+        console.log(hash);
         // let savedListings = [];
         // error checking
+        console.log(1)
+
         if (!firstname || !lastname || !email || !age || !phone || !username || !password) {
              throw "MISSING ONE OR MORE USER DETAILS. TRY AGAIN!"; // either alert or throw?
+             
         }
+        console.log(2)
+
         if (typeof username !== "string" || typeof password !== "string" || typeof firstname !== "string"
             || typeof lastname !== "string" || typeof email !== "string"|| typeof phone !== "string"){
                 throw "ERROR: MUST BE A STRING";
         }
+        console.log(3)
+
         if (typeof age !== "number") {
             throw "ERROR: AGE MUST BE A NUMBER"
         }
-        if (age > 122 | age < 0){
+        console.log(4)
+
+        if (age > 122 || age < 0){
             throw "ERROR: AGE MUST BE VALID"
         }
+        console.log(5)
+
         username=username.trim();
         if (username.trim().length === 0){
             throw "ERROR: USERNAME CAN'T HAVE EMPTY SPACES!";
         }
+        console.log(6)
+
         if (password.trim().length === 0) {
             throw "ERROR: PASSWORD CAN'T HAVE EMPTY SPACES!";
         }
+        console.log(7)
         if (firstname.trim().length ===0 || lastname.trim().length ===0 || email.trim().length ===0 
             || phone.trim().length ===0){
                 throw "ERROR: FIELDS CAN'T HAVE EMPTY SPACES!"
             }
+        console.log(8)
         //https://stackoverflow.com/questions/15933727/javascript-regular-expression-for-usernames-no-spaces
         let reUser = /^[a-zA-Z0-9]{4,}$/; // I did up to unlimited characters
         if (reUser.test(username) === false) {
             throw "ERROR: MUST BE A VALID STRING!";
         }
+        console.log(9)
         let rePass = /^[a-zA-Z0-9.\-_$#&@*!]{6,}$/; // I did up to unlimited characters
         if (rePass.test(password) === false) {
             throw "ERROR: MUST BE A VALID STRING!";
         }
         //email checking
+        email = email.toLowerCase();
         validateEmail(email);
         //phone checking
         validatePhone(phone);
+        console.log(10)
         const userCollection = await users();
         let otherUsers = await userCollection.findOne({username: username});
         if (!otherUsers){
@@ -84,17 +102,18 @@ const exportedMethods = {
             phone: phone.trim()
             // savedListings: savedListings // unsure yet - WANT TO SAVE WHATEVER LISTING USERS INTERESTED INTO THEIR "SAVED" INFORMATION
         };
-
+        console.log(11);
         const insertInfo = await userCollection.insertOne(newUserInfo);
         if (!insertInfo.acknowledged || !insertInfo.insertedId || insertInfo.insertedCount === 0) {
             throw "ERROR: COULD NOT CREATE USER";
         }
-        
+        console.log(12);
         const newId = insertInfo.insertedId.toString();
         const newUser = await userCollection.findOne(newId);
         if (!newUser){
             throw "ERROR: UNABLE TO FIND USER";
         }
+        console.log(13)
         newUser._id = newUser._id.toString();
         return newUser;
     },

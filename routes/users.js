@@ -4,6 +4,7 @@ const router = express.Router();
 const { ObjectId } = require('mongodb');
 // const bcrypt = require('bcrypt');
 const users = require("../data/users");
+const xss= require("xss");
 
 router.get('/', async (req,res) => {
     //if a user is authenticated -- redirect to /private
@@ -25,69 +26,86 @@ router.get('/signup', async (req,res) => {
     if (req.session.user) { // if user is authenticated
         res.redirect("/private");
     } else{ //  not authenticated
-        return res.status(403).render('signup', {title: "Sign-Up"})
+        return res.status(200).render('signup', {title: "Sign-Up", user: req.session.user})
     }
 });
 
 router.post('/signup', async (req,res) => {
-    let username = req.body.username;
-    let password = req.body.password;
-
+    let username = xss(req.body.username);
+    let password = xss(req.body.password);
+    let email = xss(req.body.email);
+    let phone = xss(req.body.phone);
+    let age = parseInt(xss(req.body.age));
+    let firstname = xss(req.body.firstname);
+    let lastname = xss(req.body.lastname);
     try {
-            //INPUT CHECKING
-    // console.log("post-signup1")
-    if ((!username) || (!password)){
-        return res.status(400).render('error')
+    //INPUT CHECKING
+    console.log("post-signup1")
+    if (!firstname || !lastname || !email || !age || !phone || !username || !password){
+        return res.status(400).render('error', {error: "ALL FIELDS MUST BE INPUTTED!"})
     }
-    // console.log("post-signup2")
+    console.log("post-signup2")
     username= username.trim();
-    if(username.trim().length === 0){
+    if(typeof username !== 'string' || username.trim().length === 0){
         return res.status(400).render('error', 
         {class: "empty-spaces",
-         error: "USERNAME CAN'T HAVE EMPTY SPACES"});
+            error: "USERNAME CAN'T HAVE EMPTY SPACES"});
     }
-    // console.log("post-signup3")
-
+    console.log("post-signup3")
     if (username.trim().length < 4){
         return res.status(400).render('error', 
         {   class: "characters",
             error: "USERNAME MUST HAVE 4 OR MORE CHARACTERS"})
     }
-    // console.log("post-signup4")
-
-    if (password.trim().length === 0){
+    console.log("post-signup4")
+    if (typeof password !== 'string' || password.trim().length === 0){
         return res.status(400).render('error', 
         {   class: "empty-spaces",
             error: "PASSWORD CAN'T HAVE EMPTY SPACES"})
     }
-    // console.log("post-signup5")
+    console.log("post-signup5")
     if (password.trim().length < 6){
         return res.status(400).render('error', 
         {   class: "characters",
             error: "PASSWORD MUST HAVE 6 OR MORE CHARACTERS"})
     }
     //https://stackoverflow.com/questions/15933727/javascript-regular-expression-for-usernames-no-spaces
-    // console.log("post-signup6")
+    console.log("post-signup6")
 
     let reUser = /^[a-zA-Z0-9]{4,}$/; // I did up to unlimited characters
     if (reUser.test(username) === false) {
-        return res.status(400).render({error: "MUST BE A VALID USERNAME!"})
+        return res.status(400).render('error', {error: "MUST BE A VALID USERNAME!"})
     }
-    // console.log("post-signup7")
+    console.log("post-signup7")
     let rePass = /^[ A-Za-z0-9_@.\#&+-]{6,}$/;
     //  /^[a-zA-Z0-9.\-_$#&@*!]{6,}$/; // I did up to unlimited characters
     if (rePass.test(password) === false) {
         console.log("post-signup7-ERROR")
-        return res.status(400).render({error:"MUST BE A VALID PASSWORD!"})
+        return res.status(400).render('error', {error:"MUST BE A VALID PASSWORD!"})
+    }
+
+    if (typeof firstname !== 'string' || typeof lastname !== 'string' || typeof email !== 'string' || typeof phone !=='string'){
+        return res.status(400).render('error', {error:"MUST BE A STRING!"})
+    }
+    if (typeof age !=='number'){
+        return res.status(400).render('error', {error:"AGE MUST BE A NUMBER!"})
+    }
+    if (age > 122 || age < 0){
+        return res.status(400).render('error', {error:"MUST BE A VALID AGE"})
+    }
+    if (firstname.trim().length === 0 || lastname.trim().length ===0 || email.trim().length ===0 
+    || phone.trim().length ===0){
+        return res.status(400).render('error', {error:"MUST BE NOT BE EMPTY!"})
     }
         // call the createUser function
-        // console.log("post-signup8")
-        const postUser = await users.createUser(username, password);
+        console.log("post-signup8")
+        const postUser = await users.createUser(username, password, firstname, lastname, email, age, phone);
+        req.session.user=postUser;
         if (postUser.userInserted === true){ // If -- userinserted: true
-            res.redirect('/');
-            // console.log("post-signup9")
+            res.redirect('/private');
+            console.log("post-signup9")
         } else {
-            // console.log("post-signup10")
+            console.log("post-signup10")
             return res.status(500).render('error', {error: "Internal Server Error"});
         }
     } catch(e){
@@ -123,7 +141,13 @@ router.post('/login', async (req,res) => {
         if ((!username) || (!password)){
             return res.status(400).render('error', {class: "invalid"});
         }
-        username= username.trim();
+        if ((typeof username !=='string')){
+            return res.status(400).render('error', {class: "invalid type"});
+        }
+        if ((typeof password !=='string')){
+            return res.status(400).render('error', {class: "invalid type"});
+        }
+        username= username.toLowerCase().trim();
         if(username.trim().length === 0){
             return res.status(400).render('error', 
             {class: "invalid",
@@ -158,11 +182,8 @@ router.post('/login', async (req,res) => {
         }
 
         // console.log("login-0")
-        const checkLogin = await users.checkUser(username, password);
-        // console.log("login-0-1")
-        // console.log(username)
-        // console.log(password);
-        
+        const checkLogin = await users.checkUser(xss(username), xss(password));
+    
         for (let i=0; i<users.length; i++){
             if (users[i].username === username && users[i].password === password) { // 
                 return res.status(400).render('login', {
