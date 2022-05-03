@@ -1,5 +1,6 @@
 {{!-- Get '/signup' method in routes  --}}
 <h1>Sign Up</h1>
+<br>
 <form action= "/signup" id="signup-form" method="POST"> 
     <div class="mb-3">
       <div class="user">
@@ -7,14 +8,6 @@
     <input type="text" name="username" id="username"/>
     </div>
     <br>
-    {{!-- <div class="mb-3">
-  <label for="exampleFormControlInput1" class="form-label">Email address</label>
-  <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
-</div>
-<div class="mb-3">
-  <label for="exampleFormControlTextarea1" class="form-label">Example textarea</label>
-  <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-</div> --}}
     <div class = "pass">
       <label for="password">Password</label>
       <input type="password" name="password" id="password"/>
@@ -37,20 +30,22 @@
   <br>
   <div class="age">
       <label for="age">Age</label>
-      <input type="number" name="age" id="age"/>
+      <input type="number" name="age" id="age" min='1' max='120'/>
     </div>
   <br>
   <div class="phone">
-      <label for="fname">Last Name</label>
-      <input type="text" name="lname" id="lname"/>
+      <label for="phone">Phone Number</label>
+      <input type="text" name="phone" id="phone"/>
     </div>
   <br>
     <a href="/login">Already have an account? Click here to log-in</a>
-    <br>
-    <button type="submit" class="btn btn-secondary">Sign In</button>
-    
+  <br>
+    <button type="submit" class="btn btn-light">Sign Up</button>
+
+    <button id="backMain"class="btn btn-light">Back to Main Page</button>
+  
      {{#if error}}
-      <p class={{class}}> {{error}}</p> 
+      <p class={{class}}> {{error}}</p>
     {{/if}}
 </form>
     {{!-- {{#if error}}
