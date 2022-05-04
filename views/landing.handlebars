@@ -1,14 +1,38 @@
+{{!-- Source for DatePicker: https://www.geeksforgeeks.org/jquery-ui-date-picker/ --}}
+{{!-- For some reason the google apis need to be included here and in the main.handlebars????????? --}}
+<section>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js" ></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" ></script>
+  <script src="../public/form.js"></script>
+</section>
 <div class="jumbrotron jumbrotron-fluid">
-  <div class="container"> 
+  <div class="container-fluid"> 
     <h1 class="display-3">Welcome to Rent N' Care!</h1>
+    <hr class="my-4">
     <p class="lead">Rent N' Care is here to help you find the best and most affordable experience while you travel!</p>
   </div>
 </div>
-<button><a href="/login">Login</a></button>
-<button><a href="/signup">Sign Up</a></button>
+ <div class="row d-flex justify-content-center"> {{!-- moved to private --}}
+  <div class="form-group row">
+    <div class="col-xl">
+      Check-In<input type="text" class="form-control"id="my_date_picker_in" placeholder="Check-In Date">
+      <br>
+      CheckOut<input type="text" class="form-control"id="my_date_picker_out" placeholder="Check-Out Date">
+      <br>
+      Guests <input type="number" class="form-control" id="guests" min="0" max="" placeholder="# of Guests">
+    <br>
+    <button type="button" class="btn btn-secondary">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+      <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+    </svg> Search
+    </button>
+  </div>
+  </div>
+</div>
 
+{{!-- <button id="login-btn"class="btn btn-light btn-lg"><a href="/login">Login</a></button>
+<button id="signup-btn" class="btn btn-light btn-lg"><a href="/signup">Sign Up</a></button> --}}
 {{#if error}}
   <p class={{class}}> {{error}}</p> 
 {{/if}}
 
-{{!-- create form for location purposes --}}

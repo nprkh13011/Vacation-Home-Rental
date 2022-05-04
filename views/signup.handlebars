@@ -1,7 +1,7 @@
 {{!-- Get '/signup' method in routes  --}}
 <h1>Sign Up</h1>
 <br>
-<form action= "/signup" id="signup-form" method="POST"> 
+<form action= "/signup" method="POST"> 
     <div class="mb-3">
       <div class="user">
           <label for="username">Username</label>
@@ -62,7 +62,7 @@
         <a href="/login">Already have an account? Click here to log-in</a>
       <br>
       <button type="submit" class="btn btn-light">Sign Up</button>
-      <button id="backMain"class="btn btn-light"><a href="/signup"></a>Back to Main Page</button>
+      <button id="backMain"class="btn btn-light"><a href="/">Back to Main Page</a></button>
       {{#if error}}
         <p class={{class}}> {{error}}</p>
       {{/if}}
