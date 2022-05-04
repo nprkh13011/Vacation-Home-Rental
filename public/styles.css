@@ -1,48 +1,75 @@
-*{
+* {
     max-width: 100%;
     text-align: center;
+    overflow: hidden;
 }
-.container-fluid{
+.card-title{
+    font-size: large;
+}
+.container-fluid {
     width: 100%;
     font-size: large;
 }
+
 .lead {
     font-size: larger;
 }
+
+#card_italy {
+    displaY: block;
+    float: left;
+    text-align: center;
+    transform: translate(175%, -90%);
+
+}
+
+#card_india {
+    displaY: block;
+    float: left;
+    text-align: center;
+    transform: translate(375%, -90%);
+}
+
 body {
     padding-bottom: 100px;
     text-align: center;
     font-size: large;
 }
-.image-logo{
-   float:left;
-   text-align: left;
+
+.image-logo {
+    float: left;
+    text-align: left;
 }
-#login-btn{
+
+#login-btn {
     text-align: center;
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
     margin: 4px 2px;
 }
-.signup-link{
+
+.signup-link {
     font-size: 12px;
 }
-#signup-btn{
+
+#signup-btn {
     text-align: center;
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
     margin: 4px 2px;
 }
+
 button:hover {
     background-color: #4CAF50;
     color: white;
     text-align: justify;
     font-weight: normal;
-    
+
 }
-footer{
+
+footer {
     color: rgb(46, 43, 39);
     text-align: center;
     position: absolute;
