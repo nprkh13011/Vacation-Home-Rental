@@ -1,14 +1,60 @@
+<section>
+  <script
+    src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"
+  ></script>
+  <script
+    src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"
+  ></script>
+  <script src="../public/form.js"></script>
+</section>
+ <h1>Welcome {{username}}!</h1>
+    <br>
 <div class="row d-flex justify-content-center">
-    <h1>{{username}}</h1>
-  <div class="form-group row">
-    <div class="col-X-6">
-      Check-In<input type="text" class="form-control"id="my_date_picker_in" placeholder="Check-In Date">
-      CheckOut<input type="text" class="form-control"id="my_date_picker_out" placeholder="Check-Out Date">
-      Guests <input type="number" class="form-control" id="guests" min="0" max="" placeholder="# of Guests">
-      <br>
-      <button type="submit" class="submitButton">Submit</button>
+
+    <div class="form-group row">
+    <div class="col-xl">
+      Check-In<input
+        type="text"
+        class="form-control"
+        id="my_date_picker_in"
+        placeholder="Check-In Date"
+      />
+      <br />
+      CheckOut<input
+        type="text"
+        class="form-control"
+        id="my_date_picker_out"
+        placeholder="Check-Out Date"
+      />
+      <br />
+      Guests
+      <input
+        type="number"
+        class="form-control"
+        id="guests"
+        min="0"
+        max=""
+        placeholder="# of Guests"
+      />
+      <br />
+      <button type="button" class="btn btn-secondary">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="currentColor"
+          class="bi bi-search"
+          viewBox="0 0 16 16"
+        >
+          <path
+            d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
+          ></path>
+        </svg>
+        Get Started
+      </button>
     </div>
   </div>
+</div>
   <br>
     <a href="/logout">Click to Logout</a>
 </div>

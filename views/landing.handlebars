@@ -1,6 +1,6 @@
 {{! Source for DatePicker: https://www.geeksforgeeks.org/jquery-ui-date-picker/ }}
 {{! For some reason the google apis need to be included here and in the main.handlebars????????? }}
-<section>
+{{!-- <section>
   <script
     src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"
   ></script>
@@ -8,18 +8,18 @@
     src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"
   ></script>
   <script src="../public/form.js"></script>
-</section>
+</section> --}}
 <div class="jumbrotron jumbrotron-fluid">
   <div class="container-fluid">
     <h1 class="display-3">Welcome to Rent N' Care!</h1>
-    <hr class="my-4" >
+    <hr class="my-4" />
     <p class="lead">Rent N' Care is here to help you find the best and most
       affordable experience while you travel!</p>
   </div>
 </div>
 <div class="row d-flex justify-content-center">
   {{! moved to private }}
-  <div class="form-group row">
+  {{!-- <div class="form-group row">
     <div class="col-xl">
       Check-In<input
         type="text"
@@ -58,23 +58,25 @@
             d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
           ></path>
         </svg>
-        Search
+        Get Started
       </button>
     </div>
   </div>
-</div>
-<div id="card_italy" class="card" style="width: 20rem; height: 28rem;">
-  <img src="../public/italy.jpg" class="card-img-top" alt="..." />
-  <div class="card-body">
-    <h5 class="card-title">Italy</h5>
-    <p class="card-text">Experience the Beauty of Italy's Maenza</p>
+</div> --}}
+
+  <div id="card_italy" class="card" style="width: 20rem; height: auto;">
+    <img src="../public/italy.jpg" class="card-img-top" alt="..." />
+    <div class="card-body">
+      <h5 class="card-title">Italy</h5>
+      <p class="card-text">Experience the Beauty of Italy's Maenza</p>
+    </div>
   </div>
-</div>
-<div id="card_india" class="card" style="width: 20rem; height: 28rem;">
-  <img src="../public/india.jpg" class="card-img-top" alt="..." />
-  <div class="card-body">
-    <h5 class="card-title">India</h5>
-    <p class="card-text">Experience the Wonders of India's Varanasi</p>
+  <div id="card_india" class="card" style="width: 20rem; height: auto;">
+    <img src="../public/india.jpg" class="card-img-top" alt="..." />
+    <div class="card-body">
+      <h5 class="card-title">India</h5>
+      <p class="card-text">Experience the Wonders of India's Varanasi</p>
+    </div>
   </div>
 </div>
 {{! <button id="login-btn"class="btn btn-light btn-lg"><a href="/login">Login</a></button>

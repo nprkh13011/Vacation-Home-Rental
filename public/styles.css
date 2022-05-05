@@ -14,7 +14,7 @@
 .lead {
     font-size: larger;
 }
-
+/* 
 #card_italy {
     displaY: block;
     float: left;
@@ -28,7 +28,7 @@
     float: left;
     text-align: center;
     transform: translate(375%, -90%);
-}
+} */
 
 body {
     padding-bottom: 100px;
@@ -48,11 +48,21 @@ body {
     font-size: 16px;
     margin: 4px 2px;
 }
+#backMain{
+     text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+}
 
 .signup-link {
     font-size: 12px;
 }
 
+.login-link {
+    font-size: 12px;
+}
 #signup-btn {
     text-align: center;
     text-decoration: none;

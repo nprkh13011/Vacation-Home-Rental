@@ -3,7 +3,7 @@
      <div class="mb-3">
       <div class="user">
           <label for="username">Username</label>
-          <input type="text" id="username" placeholder="" value="" required="">
+          <input name="username" type="text" id="username" placeholder="" value="" required="">
           <div class="invalid-feedback">
             Valid Username is required.
           </div>
@@ -11,7 +11,7 @@
       <br>
       <div class = "pass">
         <label for="password">Password</label>
-        <input type="password" id="password" placeholder="" value="" required="">
+        <input name="password" type="password" id="password" placeholder="" value="" required="">
         <div class="invalid-feedback">
           Valid password is required.
         </div>
@@ -20,9 +20,9 @@
       <button id="login-btn" class="btn btn-light btn-lg" type="submit">Login</button>
       <br>
       <a class="signup-link" href="/signup">Need to register? Click here to sign-up</a>
-      {{#if error}}
+    </div>
+    {{#if error}}
         <p class={{class}}> {{error}}</p> 
       {{/if}}
-    </div>
 </form>
 
