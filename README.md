@@ -3,7 +3,7 @@ An application designed to help users book affordable places that also give the 
 <br> Rent N' Care was created using **HTML(handlebars)**, **CSS**, **Bootstrap**, **Node.js**, & **Express**
 
 # How to Set Up Application:
-First, Run `npm i` or `npm install` in order to install all the required libraries for this project
+Run `npm i` or `npm install` in order to install all the required libraries for this project
 <br>Run `npm run seed` to run the task of seeding the db
 <br>Run `npm start` to start the router
 
