@@ -56,10 +56,10 @@ app.use(session({
 
 app.use('/private', (req, res, next) => {
   // console.log(req.session.id);
-  if (!req.session.user) {
-    return res.redirect('/');
-  } else {
+  if (req.session.user) {
     next();
+  } else {
+    return res.redirect("/");
   }
 });
 app.use('/signup', (req, res, next) => {

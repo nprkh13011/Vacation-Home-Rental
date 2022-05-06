@@ -1,7 +1,8 @@
 const usersData = require('./users');
-// const hostsData = require('./host');
+ const propertyData = require('./property');
 
 module.exports = {
-    users: usersData
+    users: usersData,
+    property: propertyData
     // host: hostsData
 };
