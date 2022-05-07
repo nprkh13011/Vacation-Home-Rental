@@ -16,7 +16,7 @@ Run `npm i` or `npm install` in order to install all the required libraries for 
 
 # Sign in  
 Username: testing
-Password: testing
+<br>Password: testing
 
 # Github Repo Link
 https://github.com/nprkh13011/Vacation-Home-Rental
