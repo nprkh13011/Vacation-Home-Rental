@@ -1,3 +1,23 @@
-
-<h1>{{country}}</h1>
-<h2>{{title}}</h2>
+<h1 class="display-3">{{title}}</h1>
+<hr />
+<img
+  src="/public/images/{{Listing.location}}.jpg"
+  class="img-fluid"
+  alt="{{listing.location}}"
+/>
+<div class="card-body">
+  <div class="card">
+    <h2>Property Type: {{Listing.propertytype}}</h2>
+    <h2>Location: {{Listing.location}}</h2>
+    <h2>Price: {{Listing.price}}</h2>
+    <h2>Min # of Nights: {{Listing.min_night}}</h2>
+    <h2>Max # of Nights: {{Listing.max_night}}</h2>
+    <h2>Details:
+      {{#each Listing.details}}
+        <h3>{{@key}}: {{this}}</h3>
+      {{/each}}
+    </h2>
+    <h2>Description: {{Listing.description}}</h2>
+  </div>
+</div>
+<button id="login-btn" class="btn btn-light btn-lg"><a href="/listings">Go Back</a></button>

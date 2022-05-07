@@ -1,13 +1,13 @@
 const express = require("express");
 const router = express.Router();
-// const session = require('express-session');
-const { ObjectId } = require("mongodb");
-const bcrypt = require("bcrypt");
+const {
+  ObjectId
+} = require("mongodb");
 const users = require("../data/users");
 const properties = require("../data/property");
 
 const xss = require("xss");
-const { property } = require("../config/mongoCollections");
+
 
 router.get("/", async (req, res) => {
   //if a user is authenticated -- redirect to /private
@@ -25,9 +25,9 @@ router.get("/", async (req, res) => {
   }
 });
 router.post("/signup", async (req, res) => {
-    console.log("req.body:"+ JSON.stringify(req.body));
-    console.log("req.body.username:"+req.body.username);
-    console.log("req.body.firstname:"+ req.body.fname);
+  console.dir("req.body:" + JSON.stringify(req.body));
+  console.log("req.body.username:" + req.body.username);
+  console.log("req.body.firstname:" + req.body.fname);
   try {
     let username = xss(req.body.username);
     let password = xss(req.body.password);
@@ -118,7 +118,7 @@ router.post("/signup", async (req, res) => {
         error: "AGE MUST BE A NUMBER!"
       });
     }
-    if (age > 122 || age < 0) {
+    if (age > 120 || age < 18) {
       return res.status(400).render("error", {
         error: "MUST BE A VALID AGE"
       });
@@ -134,9 +134,8 @@ router.post("/signup", async (req, res) => {
       });
     }
     try {
-      // call the createUser function
+      //call the createUser function
       // console.log("post-signup8");
-     
       let postUser = await users.createUser(
         username,
         password,
@@ -150,16 +149,6 @@ router.post("/signup", async (req, res) => {
     } catch (e) {
       console.log(e);
     }
-    // if (postUser.userInserted === true) {
-    //   // If -- userinserted: true
-    //   res.redirect("/private");
-    //   console.log("post-signup9");
-    // } else {
-    //   console.log("post-signup10");
-    //   return res.status(500).render("error", {
-    //     error: "Internal Server Error",
-    //   });
-    // }
   } catch (e) {
     return res.status(400).render("signup", {
       error: e
@@ -187,7 +176,7 @@ router.get("/login", async (req, res) => {
   //if a user is authenticated -- redirect to /private
   // else -- render to signup page
   // let user = req.session.user;
-  // console.log("hi-signup");
+
   if (req.session.user) {
     // if user is authenticated
     res.redirect("/private");
@@ -297,46 +286,149 @@ router.post("/login", async (req, res) => {
 });
 //get route /private - from professor's github
 router.get("/private", async (req, res) => {
-  try{
-    let username = req.session.user.username;
-    return res.status(200).render("private", {title: "Profile", username: username});
-  } catch(e){
+  try {
+    let username = xss(req.session.user.username);
+    return res.status(200).render("private", {
+      title: "Profile",
+      username: username,
+      authenticated: true
+    });
+  } catch (e) {
     return res.status(400).render("private", {
       error: "Could not enter profile page",
     });
-}
+  }
 });
-
-//get route /private - from professor's github
+/*
+private(profile) --> listings (cards)
+listings --> descriptions (set of listings in that country) /id
+descriptions --> description/id
+*/
 router.get("/listings", async (req, res) => {
-  if (req.session.user){  //render -- handlebars
-        res.status(200).render('listings', {title:`Rentals By Country`})
-      }  else {
-        res.status(400).render('private',{error:'Could not load listings'});
-      }
+  const prop = await properties.getAllProperties();
+  if (req.session.user) { //render -- handlebars
+    res.status(200).render('listings', {
+      title: `Listings`,
+      AllListings: prop
+    })
+  } else {
+    res.status(400).render('private', {
+      error: 'Could not load listings'
+    });
+  }
+});
 
-});
-//get route /private - from professor's github
+// //get route /private/listings/descriptions - from professor's github
 router.get("/descriptions", async (req, res) => {
-  if (req.session.user){  //render -- handlebars
-        res.status(200).render('descriptions', {title: "Descriptions", country: "France"})
-      }  else {
-        res.status(400).render('private',{error:'Could not load the description'});
-      }
+  if (req.session.user) { //render -- handlebars
+    res.status(200).render('allprop', {
+      title: "Properties"
+    })
+    // res.status(200).json();
+  } else {
+    res.status(400).render('private', {
+      error: 'Could not load the description'
+    });
+  }
 });
-//get route /private - from professor's github
+//when it clicks on the view button 
 router.get("/descriptions/:id", async (req, res) => {
-  let id= req.params.id;
-  if (!ObjectId.isValid(id)){
-    return res.status(400).json({error: "ID not valid"})
+  let id = xss(req.params.id);
+  if (!ObjectId.isValid(id)) {
+    return res.status(400).json({
+      error: "ID not valid"
+    })
   }
   const getid = await properties.get(id);
-  if (req.session.user){  //render -- handlebars
-        res.status(200).render('descriptions', {title: "Descriptions", country: getid})
-    }  else {
-      res.status(400).render('private',{error:'Could not load the description'});
-    }
+  if (req.session.user) { //render -- handlebars
+    res.status(200).render('descriptions', {
+      title: "Property Details",
+      Listing: getid
+    })
+    // res.status(200).json(getid);
+  } else {
+    res.status(400).render('private', {
+      error: 'Could not load the description'
+    });
+  }
 });
+
+router.get("/editUsername", async (req, res) => {
+  if (req.session.user) { //render -- handlebars
+    res.status(200).render('editUsername', {
+      title: "Account",
+      authenticated: true
+    })
+    // res.status(200).json();
+  } else {
+    res.status(400).render('private', {
+      error: 'Could not load the description'
+    });
+  }
+});
+
+//edit username in account ---- DOESN'T WORK
+router.post("/editUsername", async (req, res) => {
+  try {
+    let id = req.session.id;
+    console.log(id);
+    let oldusername = xss(req.body.username);
+    console.log("Username:" + oldusername);
+    let newUsername = xss(req.body.newUsername);
+    console.log("New Username:" + newUsername);
+
+    const userId = await users.get(id);
+    console.log(userId);
+    let edit = await users.editUsername(id, xss(oldusername));
+    console.log(edit)
+
+    if (!ObjectId.isValid(id)) {
+      return res.status(400).render('error', {
+        error: "ID not valid"
+      })
+    }
+    if (!username) {
+      return res.status(400).render('error', {
+        error: "Username not inputted"
+      })
+    }
+    //duplicate user found
+    if (oldusername === newUsername) {
+      return res.status(400).render("editUsername", {
+        error: "Change name of username",
+      });
+    } else {
+      if (req.session.user) { //render -- handlebars
+        let edit = await users.editUsername(userId, xss(oldusername));
+        console.log(edit)
+        res.status(200).render('editUsername', {
+          message: "Successfully Updated User"
+        })
+        // res.status(200).json();
+      } else {
+        res.status(400).render('private', {
+          error: 'Could not load the description'
+        });
+      }
+    }
+  } catch (e) {
+    res.status(400).render('editUsername', {
+      error: 'Could not update user'
+    });
+  }
+
+});
+
+// router.get("/deleteAccount", async (req, res) => {
+//   if (req.session.user) { //render -- handlebars
+//   await users.remove(req.session.id);
+//   confirm("Are you sure you want to delete this account?")
+//   } else {
+//     res.status(400).render('private', {
+//       error: 'Could not load the description'
+//     });
+//   }
+// });
 router.get("/logout", async (req, res) => {
   req.session.destroy();
   // res.send('Logged out');

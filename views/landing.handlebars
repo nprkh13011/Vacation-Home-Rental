@@ -1,6 +1,6 @@
 {{! Source for DatePicker: https://www.geeksforgeeks.org/jquery-ui-date-picker/ }}
 {{! For some reason the google apis need to be included here and in the main.handlebars????????? }}
-{{!-- <section>
+{{! <section>
   <script
     src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"
   ></script>
@@ -8,12 +8,14 @@
     src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"
   ></script>
   
-</section> --}}<script src="../public/form.js"></script>
+</section> }}
+<script src="../public/form.js"></script>
 <div class="jumbrotron jumbrotron-fluid">
   <div class="container-fluid">
     <h1 class="display-3">Welcome to Rent N' Care!</h1>
     <hr class="my-4" />
-    <p class="lead">Rent N' Care is here to help you feel at home while you travel around the world!</p>
+    <p class="lead">Rent N' Care is here to help you feel at home while you
+      travel around the world!</p>
   </div>
 </div>
 <div class="row d-flex justify-content-center">
@@ -21,27 +23,28 @@
     <img src="../public/images/italy.jpg" class="card-img-top" alt="..." />
     <div class="card-body">
       <h5 class="card-title">Italy</h5>
-      <p class="card-text">Experience the Beauty of Italy's Maenza</p>
+      <p class="card-text">Experience the Beauty of Italy</p>
     </div>
   </div>
   <div id="card_india" class="card" style="width: 20rem;">
     <img src="../public/images/india.jpg" class="card-img-top" alt="..." />
     <div class="card-body">
       <h5 class="card-title">India</h5>
-      <p class="card-text">Experience the Wonders of India's Varanasi</p>
+      <p class="card-text">Experience the Wonders of India</p>
     </div>
   </div>
   <div id="card_france" class="card" style="width: 20rem;">
-      <img src="../public/images/france.jpg" class="card-img-top" alt="..." />
-      <div class="card-body">
-        <h5 class="card-title">France</h5>
-        <p class="card-text">Experience the Art and Music at France's Paris</p>
-      </div>
+    <img src="../public/images/france.jpg" class="card-img-top" alt="..." />
+    <div class="card-body">
+      <h5 class="card-title">France</h5>
+      <p class="card-text">Experience the Art and Music at France</p>
     </div>
+  </div>
 </div>
-
-<button id="login-btn"class="btn btn-light btn-lg"><a href="/login">Login</a></button>
+<button id="login-btn" class="btn btn-light btn-lg"><a
+    href="/login"
+  >Login</a></button>
 <button id="signup-btn" class="btn btn-light btn-lg"><a href="/signup">Sign Up</a></button>
 {{#if error}}
-  <p class={{class}}> {{error}}</p>
+  <p class={{class}}>{{error}}</p>
 {{/if}}

@@ -5,4 +5,5 @@ module.exports = {
     users: usersData,
     property: propertyData
     // host: hostsData
+    //payment: paymentData
 };

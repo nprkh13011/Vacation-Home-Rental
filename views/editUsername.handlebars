@@ -1,0 +1,34 @@
+<h1 class="display-3">Account Information</h1>
+<div class="row d-flex justify-content-center">
+  <form action="/editUsername" method="POST">
+    <div class="mb-3">
+      <label for="username">Original username: </label>
+      <input
+        name="username"
+        type="text"
+        id="username"
+        placeholder="insert"
+        value=""
+        required=""
+      />
+      <br />
+      <br />
+      <label for="newUsername">Edit username:</label>
+      <input
+        name="newUsername"
+        type="text"
+        id="newUsername"
+        placeholder="confirm"
+        value=""
+        required=""
+      />
+      <div class="invalid-feedback">
+        Username is required to Edit.
+      </div>
+          <br />
+      <button type="submit" class="btn btn-light btn-lg">Change Username</button>
+    </div>
+    <br />
+    
+  </form>
+</div>

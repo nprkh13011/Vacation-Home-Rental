@@ -1,0 +1,11 @@
+<h1 class="display-3">Listings</h1>
+<section class="jumbotron text-center">
+  {{#each countries}}
+    <div class="card mb-">
+      <div class="row g-0">
+        <a href="/descriptions/{{_id}}"><h5>{{propertytype}}</h5></a>
+      </div>
+    </div>
+  {{/each}}
+</section>
+<button class="btn btn-light btn-lg"><a href="/logout">Click to Logout</a></button>

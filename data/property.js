@@ -1,39 +1,41 @@
 const mongoCollections = require("../config/mongoCollections");
 const properties = mongoCollections.property;
-const {ObjectId} = require("mongodb");
+const {
+  ObjectId
+} = require("mongodb");
 
 //instead of asking for birthdate as stated in db proposal- -- just ask for age
 const exportedMethods = {
   async createProperty(propertytype, location, price, max_night, min_night, details, desc) {
     try {
-    //   console.log(1);
+      //   console.log(1);
       if (!propertytype || !location || !price || !max_night || !min_night || !details || !desc) {
-           throw "ERROR: MISSING ONE OR MORE PROPERTY DETAILS. TRY AGAIN!"; // either alert or throw?
+        throw "ERROR: MISSING ONE OR MORE PROPERTY DETAILS. TRY AGAIN!"; // either alert or throw?
       }
-    //   console.log(2);
-      if (typeof propertytype !== "string" || typeof location !== "string" || typeof desc !== "string"){
-              throw "ERROR: MUST BE A STRING";
+      //   console.log(2);
+      if (typeof propertytype !== "string" || typeof location !== "string" || typeof desc !== "string") {
+        throw "ERROR: MUST BE A STRING";
       }
-    //   console.log(3);
+      //   console.log(3);
 
       if (typeof price !== "number") {
         throw "ERROR: PRICE MUST BE A NUMBER";
       }
-      if (typeof max_night !== "number" || typeof min_night !== "number"){
+      if (typeof max_night !== "number" || typeof min_night !== "number") {
         throw "ERROR: NUMBER OF NIGHTS MUST BE A NUMBER"
-    }
-    //   console.log(5);
-      if (typeof details !== 'object' || details === null || Array.isArray(details)){ // 
+      }
+      //   console.log(5);
+      if (typeof details !== 'object' || details === null || Array.isArray(details)) { // 
         throw "ERROR: DETAILS MUST BE AN OBJECT"
       }
-      if(!("Bedrooms" in details) || !("Beds" in details) || !("Bathrooms" in details) || !("Kitchen" in details)) {
+      if (!("Bedrooms" in details) || !("Beds" in details) || !("Bathrooms" in details) || !("Kitchen" in details)) {
         throw "ERROR: DETAILS MUST INCLUDE ALL FIELDS"
       }
-    for(let detail in details) {
-        if(typeof details[detail] !== "number")
-            throw "ERROR: INVALID FIELDS IN DETAILS";
-    }
-    //   console.log(6);
+      for (let detail in details) {
+        if (typeof details[detail] !== "number")
+          throw "ERROR: INVALID FIELDS IN DETAILS";
+      }
+      //   console.log(6);
       if (
         propertytype.trim().length === 0 ||
         location.trim().length === 0 ||
@@ -41,7 +43,7 @@ const exportedMethods = {
       ) {
         throw "ERROR: FIELDS CAN'T HAVE EMPTY SPACES!";
       }
-    //   console.log(7);
+      //   console.log(7);
       const propertyCollection = await properties();
       let propertyInfo = {
         propertytype: propertytype.trim(),
@@ -52,7 +54,7 @@ const exportedMethods = {
         details: details,
         description: desc.trim()
       };
-    //   console.log(8);
+      //   console.log(8);
       const insertInfo = await propertyCollection.insertOne(propertyInfo);
       if (
         !insertInfo.acknowledged ||
@@ -60,13 +62,13 @@ const exportedMethods = {
       ) {
         throw "ERROR: COULD NOT CREATE USER";
       }
-    //   console.log(9);
+      //   console.log(9);
       const newId = insertInfo.insertedId;
       const newUser = await propertyCollection.findOne(newId);
       if (!newUser) {
         throw "ERROR: UNABLE TO FIND USER";
       }
-    //   console.log(10);
+      //   console.log(10);
       newUser._id = newUser._id.toString();
       return newUser;
     } catch (e) {
@@ -81,7 +83,7 @@ const exportedMethods = {
       throw "ERROR: UNABLE TO GET ALL PROPERTIES";
     }
     for (let i = 0; i < getAllProperty.length; i++) {
-        getAllProperty[i]["_id"] = getAllProperty[i]["_id"].toString();
+      getAllProperty[i]["_id"] = getAllProperty[i]["_id"].toString();
     }
     return getAllProperty;
   },
@@ -112,7 +114,7 @@ const exportedMethods = {
   async remove(id) {
     const propertyCollection = await properties();
     const propertyID = await this.get(id);
-    const propertyname = propertyID.name;
+    const propertyname = propertyID._id;
     if (!id) {
       throw "ERROR: MUST PROVIDE ID!";
     }
@@ -137,9 +139,9 @@ const exportedMethods = {
 
   //update property listings 
   async update(id, propertytype, location, price, max_night, min_night, details, desc) {
-    if (!propertytype || !location 
-        || !price || !max_night 
-        || !min_night || !details || !desc) {
+    if (!propertytype || !location ||
+      !price || !max_night ||
+      !min_night || !details || !desc) {
       throw "ERROR: ALL FIELDS MUST HAVE AN INPUT!";
     }
     // error check #2 part 1
@@ -153,8 +155,8 @@ const exportedMethods = {
     if (typeof price !== "number") {
       throw "ERROR: PRICE MUST BE A NUMBER";
     }
-    if (typeof max_night !== "number" || typeof min_night !== "number"){
-        throw "ERROR: NUMBER OF NIGHTS MUST BE A NUMBER"
+    if (typeof max_night !== "number" || typeof min_night !== "number") {
+      throw "ERROR: NUMBER OF NIGHTS MUST BE A NUMBER"
     }
     // error check #2 part 2
     if (
@@ -180,7 +182,7 @@ const exportedMethods = {
     if (!updateInfo) {
       throw "ERROR: NO BANDS IS PRESENT FOR THAT ID";
     }
-   
+
     let PropertyUpdateInfo = {
       propertytype: propertytype,
       location: location,
@@ -193,13 +195,13 @@ const exportedMethods = {
 
     // if there's no update, throw error
     if (
-        PropertyUpdateInfo.propertytype === currentUser.propertytype &&
-        PropertyUpdateInfo.location === currentUser.location &&
-        PropertyUpdateInfo.price === currentUser.price &&
-        PropertyUpdateInfo.max_night === currentUser.max_night &&
-        PropertyUpdateInfo.min_night === currentUser.min_night &&
-        PropertyUpdateInfo.details === currentUser.details &&
-        PropertyUpdateInfo.description === currentUser.description
+      PropertyUpdateInfo.propertytype === currentUser.propertytype &&
+      PropertyUpdateInfo.location === currentUser.location &&
+      PropertyUpdateInfo.price === currentUser.price &&
+      PropertyUpdateInfo.max_night === currentUser.max_night &&
+      PropertyUpdateInfo.min_night === currentUser.min_night &&
+      PropertyUpdateInfo.details === currentUser.details &&
+      PropertyUpdateInfo.description === currentUser.description
     ) {
       throw "ERROR: THERE NEEDS TO BE AN UPDATE!";
     }

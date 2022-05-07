@@ -8,19 +8,19 @@
   <script src="../public/form.js"></script>
 </section>
  <h1>Welcome {{username}}!</h1>
-    <br>
+    <br />
 <form action= "/private" id="private-form" method="POST">
 <div class="row d-flex justify-content-center">
     <div class="form-group row">
     <div class="col-xl">
-      Check-In<input
+      Check-In Date<input
         type="text"
         class="form-control"
         id="my_date_picker_in"
         placeholder="Check-In Date"
       />
       <br />
-      CheckOut<input
+      Check-Out Date<input
         type="text"
         class="form-control"
         id="my_date_picker_out"
@@ -37,7 +37,7 @@
         placeholder="# of Guests"
       />
       <br />
-      <button type="button" class="btn btn-secondary">
+      <button type="button" class="btn btn-secondary" style="color:#f8fbfe;">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="16"
@@ -50,14 +50,14 @@
             d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
           ></path>
         </svg>
-        <a href='/listings'>Get Started</a>
+        <a href='/listings' style="color:#ecf0f3;">Get Started</a>
       </button>
-      <br>
-      <br>
-      <button class="btn btn-light btn-lg"><a href="/logout">Click to Logout</a></button>
+      <br />
+      <br />
+      {{!-- <button class="btn btn-light btn-lg"><a href="/logout">Click to Logout</a></button> --}}
     </div>
   </div>
 </div>
-  <br>  
+  <br />  
 </div>
 </form>

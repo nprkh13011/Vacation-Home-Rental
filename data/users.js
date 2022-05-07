@@ -1,6 +1,8 @@
 const mongoCollections = require("../config/mongoCollections");
 const users = mongoCollections.users;
-const {ObjectId} = require("mongodb");
+const {
+  ObjectId
+} = require("mongodb");
 const bcrypt = require("bcryptjs/dist/bcrypt");
 const saltRounds = 10;
 
@@ -28,19 +30,17 @@ const exportedMethods = {
   async createUser(username, password, firstname, lastname, email, age, phone) {
     //include authentication
     try {
-      // console.log(0);
       const hashedPass = await bcrypt.hash(password, saltRounds);
-      console.log(hashedPass);
+      // console.log(hashedPass);
       // let savedListings = [];
       // error checking
-      // console.log(1);
       if (!firstname || !lastname || !email || !age || !phone || !username || !password) {
-           throw "MISSING ONE OR MORE USER DETAILS. TRY AGAIN!"; // either alert or throw?
+        throw "MISSING ONE OR MORE USER DETAILS. TRY AGAIN!"; // either alert or throw?
       }
       // console.log(2);
-      if (typeof username !== "string" || typeof password !== "string" || typeof firstname !== "string"
-          || typeof lastname !== "string" || typeof email !== "string"|| typeof phone !== "string"){
-              throw "ERROR: MUST BE A STRING";
+      if (typeof username !== "string" || typeof password !== "string" || typeof firstname !== "string" ||
+        typeof lastname !== "string" || typeof email !== "string" || typeof phone !== "string") {
+        throw "ERROR: MUST BE A STRING";
       }
       // console.log(3);
 
@@ -91,13 +91,13 @@ const exportedMethods = {
       validatePhone(phone);
       // console.log(10);
       const userCollection = await users();
-      console.log("RAN");
-       let duplicateUser = await userCollection.findOne(
-              {username: username}
-      );
-        if (duplicateUser != null){
-          throw `User already exists - ${JSON.stringify(duplicateUser)}`
-        }
+      // console.log("RAN");
+      let duplicateUser = await userCollection.findOne({
+        username: username
+      });
+      if (duplicateUser != null) {
+        throw `User already exists - ${JSON.stringify(duplicateUser)}`
+      }
       // console.log(10.5);
       // console.log(username);
       // console.log(firstname);
@@ -210,21 +210,27 @@ const exportedMethods = {
 
   async get(id) {
     const userCollection = await users();
+    console.log(1);
     if (!id) {
       throw "ERROR: ID DOES NOT EXIST";
     }
+    console.log(2);
     if (typeof id !== "string") {
       throw "ERROR: ID MUST BE A STRING";
     }
+    console.log(3);
     if (id.trim().length === 0) {
       throw "ERROR: ID CAN'T BE EMPTY STRING";
     }
+    console.log(4);
+    console.log(id);
+
     id = id.trim();
     if (!ObjectId.isValid(id)) {
       throw "ERROR: NOT A VALID ID - DOESN'T EXIST!";
     }
     const getuser = await userCollection.findOne({
-      _id: ObjectId(id),
+      _id: ObjectId(id.trim()),
     });
     if (!getuser) {
       throw "ERROR: CAN'T FIND USER BY ID";
@@ -236,20 +242,27 @@ const exportedMethods = {
   async remove(id) {
     const userCollection = await users();
     const userID = await this.get(id);
-    const user_name = userID.name;
+    const user_name = userID.username;
+    console.log(6);
     if (!id) {
       throw "ERROR: MUST PROVIDE ID!";
     }
+    console.log(7);
     if (typeof id !== "string") {
       throw "ERROR: ID MUST BE A STRING";
     }
+    console.log(8);
     if (id.trim().length === 0) {
       throw "ERROR: ID CAN'T BE EMPTY STRING";
     }
+    console.log(9);
+
     id = id.trim();
     if (!ObjectId.isValid(id)) {
       throw "ERROR: NOT A VALID ID - DOESN'T EXIST!";
     }
+    console.log(10);
+
     const deleteId = await userCollection.deleteOne({
       _id: ObjectId(id),
     });
@@ -257,6 +270,7 @@ const exportedMethods = {
       // if band can't be removed
       throw `ERROR: CAN'T DELETE USER WITH ID OF ${id}`;
     }
+    console.log(11);
     return `${user_name} has been successfully deleted!`;
   },
   //update User profile
@@ -276,6 +290,9 @@ const exportedMethods = {
     }
     if (typeof age !== "number") {
       throw "ERROR: AGE MUST BE A NUMBER";
+    }
+    if (age > 120 || age < 18) {
+      throw "ERROR: MUST BE ADULT"
     }
     // error check #2 part 2
     if (
@@ -327,7 +344,7 @@ const exportedMethods = {
     }
 
     const updateI = await userCollection.updateOne({
-      _id: ObjectId(id),
+      _id: ObjectId(id.trim()),
     }, {
       $set: UsersUpdateInfo,
     });
@@ -339,37 +356,46 @@ const exportedMethods = {
   // if the user wants to edit their password -- then that updates all the data
   async editUsername(id, username) {
     const userCollection = await users();
+    console.log("edit-1")
     if (!id) {
       throw "ERROR: MUST PROVIDE ID OF USER!";
     }
+    console.log("edit-2")
+
     if (typeof id !== "string") {
       throw "ERROR: MUST BE A STRING";
     }
-    id=id.trim()
-    if (!ObjectId.isValid(id)){
+    console.log("edit-3")
+
+    id = id.trim()
+    if (!ObjectId.isValid(id)) {
       throw "ERROR: NOT A VALID ID - DOESN'T EXIST!";
     }
-    try{
+    try {
+      console.log("edit-4")
       let user = await userCollection.findOne({
-        _id: ObjectId(id)
+        _id: ObjectId(id.trim())
       });
+      console.log("edit-5")
       if (!user) {
         throw "ERROR: USERNAME DOESNT EXIST";
       }
-        let updateI = await userCollection.updateOne({
-          _id: ObjectId(id),
-        }, {
-          $set: {
-            username: username,
-          },
-        });
-        if (!updateI.matchedCount && !updateI.modifiedCount) {
-          throw "ERROR: UPDATE FAILED!";
-        }
-        return await this.get(id.trim());
-    } catch(e){
-      console.log( e);
+      console.log("edit-6")
+      let updateI = await userCollection.updateOne({
+        _id: ObjectId(id.trim()),
+      }, {
+        $set: {
+          username: username,
+        },
+      });
+      if (!updateI.matchedCount && !updateI.modifiedCount) {
+        throw "ERROR: UPDATE FAILED!";
+      }
+    } catch (e) {
+      console.log(e);
     }
+    console.log("edit-7")
+    return await this.get(id.trim());
   }
 };
 

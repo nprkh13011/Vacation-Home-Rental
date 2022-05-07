@@ -7,6 +7,7 @@ const static = express.static(__dirname + '/public');
 const exphbs = require('express-handlebars');
 const handlebarsInstance = exphbs.create({
   defaultLayout: 'main',
+  
   // Specify helpers which are only registered on this instance.
   helpers: {
     asJSON: (obj, spacing) => {
@@ -62,6 +63,7 @@ app.use('/private', (req, res, next) => {
     return res.redirect("/");
   }
 });
+
 app.use('/signup', (req, res, next) => {
   // console.log(req.session.id);
   if (req.session.user) { // if user is authenticated
