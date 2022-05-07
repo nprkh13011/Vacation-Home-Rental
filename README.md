@@ -14,5 +14,9 @@ Run `npm i` or `npm install` in order to install all the required libraries for 
 4. The user is able to select when they wish to travel and the number of guests that will accompany on their trip.
 5. An authenticated user will be able to edit their account username.
 
+# Sign in  
+Username: testing
+Password: testing
+
 # Github Repo Link
 https://github.com/nprkh13011/Vacation-Home-Rental
