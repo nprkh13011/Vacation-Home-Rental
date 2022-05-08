@@ -25,9 +25,9 @@ router.get("/", async (req, res) => {
   }
 });
 router.post("/signup", async (req, res) => {
-  console.dir("req.body:" + JSON.stringify(req.body));
-  console.log("req.body.username:" + req.body.username);
-  console.log("req.body.firstname:" + req.body.fname);
+  // console.dir("req.body:" + JSON.stringify(req.body));
+  // console.log("req.body.username:" + req.body.username);
+  // console.log("req.body.firstname:" + req.body.fname);
   try {
     let username = xss(req.body.username);
     let password = xss(req.body.password);
@@ -145,6 +145,10 @@ router.post("/signup", async (req, res) => {
         age,
         phone
       );
+      req.session.user={
+        id: postUser._id,
+        username: username
+      }      
       res.redirect('/login');
     } catch (e) {
       console.log(e);
@@ -269,7 +273,8 @@ router.post("/login", async (req, res) => {
     // console.log("login-1")
     if (checkLogin.authenticated === true) {
       req.session.user = {
-        username: username,
+        id: checkLogin.id,
+        username: username
       };
       res.redirect("/private");
     } else {
@@ -370,24 +375,23 @@ router.get("/editUsername", async (req, res) => {
 //edit username in account ---- DOESN'T WORK
 router.post("/editUsername", async (req, res) => {
   try {
-    let id = req.session.id;
+    let id = req.session.user.id;
     console.log(id);
     let oldusername = xss(req.body.username);
     console.log("Username:" + oldusername);
     let newUsername = xss(req.body.newUsername);
     console.log("New Username:" + newUsername);
 
-    const userId = await users.get(id);
-    console.log(userId);
-    let edit = await users.editUsername(id, xss(oldusername));
-    console.log(edit)
-
+    // const userId = await users.get(id);
+    // console.log(userId);
+    // let edit = await users.editUsername(id, xss(oldusername));
+    // console.log(edit)
     if (!ObjectId.isValid(id)) {
       return res.status(400).render('error', {
         error: "ID not valid"
       })
     }
-    if (!username) {
+    if (!oldusername || !newUsername) {
       return res.status(400).render('error', {
         error: "Username not inputted"
       })
@@ -399,8 +403,7 @@ router.post("/editUsername", async (req, res) => {
       });
     } else {
       if (req.session.user) { //render -- handlebars
-        let edit = await users.editUsername(userId, xss(oldusername));
-        console.log(edit)
+        let edit = await users.editUsername(id, xss(newUsername));
         res.status(200).render('editUsername', {
           message: "Successfully Updated User"
         })

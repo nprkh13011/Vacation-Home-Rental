@@ -168,8 +168,9 @@ const exportedMethods = {
       //try catch for mongodb works
       // console.log("checkUser-0")
       Query = await userCollection.findOne({
-        username: username,
+        username: username
       });
+      
       // console.log("query "+JSON.stringify(Query))
       // if (!Query){ // if there is a username not found
       if (Object.keys(Query).length === 0) {
@@ -181,7 +182,7 @@ const exportedMethods = {
         // query - is hashed
         // console.log("checkUser-2")
         compareFoundUser = await bcrypt.compare(password, Query.password);
-        console.log(compareFoundUser);
+        // console.log(compareFoundUser);
         if (!compareFoundUser) {
           // console.log("checkUser-3")
           throw "Either the username or password is invalid";
@@ -189,6 +190,7 @@ const exportedMethods = {
           // console.log("checkUser-5")
           return {
             authenticated: true,
+            id: Query["_id"].toString()
           };
         }
       }
@@ -210,25 +212,26 @@ const exportedMethods = {
 
   async get(id) {
     const userCollection = await users();
-    console.log(1);
+    // console.log(1);
     if (!id) {
       throw "ERROR: ID DOES NOT EXIST";
     }
-    console.log(2);
+    // console.log(2);
     if (typeof id !== "string") {
       throw "ERROR: ID MUST BE A STRING";
     }
-    console.log(3);
+    // console.log(3);
     if (id.trim().length === 0) {
       throw "ERROR: ID CAN'T BE EMPTY STRING";
     }
-    console.log(4);
+    // console.log(4);
     console.log(id);
 
     id = id.trim();
     if (!ObjectId.isValid(id)) {
       throw "ERROR: NOT A VALID ID - DOESN'T EXIST!";
     }
+    // console.log(5);
     const getuser = await userCollection.findOne({
       _id: ObjectId(id.trim()),
     });
@@ -236,6 +239,7 @@ const exportedMethods = {
       throw "ERROR: CAN'T FIND USER BY ID";
     }
     getuser._id = getuser._id.toString();
+    // console.log(5.5)
     return getuser;
   },
 
@@ -243,25 +247,25 @@ const exportedMethods = {
     const userCollection = await users();
     const userID = await this.get(id);
     const user_name = userID.username;
-    console.log(6);
+    // console.log(6);
     if (!id) {
       throw "ERROR: MUST PROVIDE ID!";
     }
-    console.log(7);
+    // console.log(7);
     if (typeof id !== "string") {
       throw "ERROR: ID MUST BE A STRING";
     }
-    console.log(8);
+    // console.log(8);
     if (id.trim().length === 0) {
       throw "ERROR: ID CAN'T BE EMPTY STRING";
     }
-    console.log(9);
+    // console.log(9);
 
     id = id.trim();
     if (!ObjectId.isValid(id)) {
       throw "ERROR: NOT A VALID ID - DOESN'T EXIST!";
     }
-    console.log(10);
+    // console.log(10);
 
     const deleteId = await userCollection.deleteOne({
       _id: ObjectId(id),
@@ -270,7 +274,7 @@ const exportedMethods = {
       // if band can't be removed
       throw `ERROR: CAN'T DELETE USER WITH ID OF ${id}`;
     }
-    console.log(11);
+    // console.log(11);
     return `${user_name} has been successfully deleted!`;
   },
   //update User profile
