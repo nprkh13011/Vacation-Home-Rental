@@ -6,12 +6,6 @@ const {
 const users = require("../data/users");
 const properties = require("../data/property");
 const xss = require("xss");
-const popup = require('node-popup');
-const {prompt} = require('node-popup');
-const { remove } = require("../data/users");
-
-
-
 
 router.get("/", async (req, res) => {
   //if a user is authenticated -- redirect to /private
@@ -124,7 +118,7 @@ router.post("/signup", async (req, res) => {
     }
     if (age > 120 || age < 18) {
       return res.status(400).render("error", {
-        error: "MUST BE A VALID AGE"
+        error: "AGE MUST BE AT LEAST 18 YEARS!"
       });
     }
     if (

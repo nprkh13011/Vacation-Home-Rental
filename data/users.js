@@ -225,7 +225,7 @@ const exportedMethods = {
       throw "ERROR: ID CAN'T BE EMPTY STRING";
     }
     // console.log(4);
-    console.log(id);
+    // console.log(id);
 
     id = id.trim();
     if (!ObjectId.isValid(id)) {

@@ -134,7 +134,7 @@ const exportedMethods = {
     if (deleteId.deletedCount === 0) {
       throw `ERROR: CAN'T DELETE USER WITH ID OF ${id}`;
     }
-    return `${propertyname} has been successfully deleted!`;
+    return `Property ID ${propertyname} has been successfully deleted!`;
   },
 
   //update property listings 

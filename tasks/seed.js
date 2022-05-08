@@ -92,23 +92,23 @@ async function main() {
         console.log(e)
     }
 
-    console.log("getAllUsers - USER4");
+    console.log("GETALLUSERS - USER4");
     const user4 = await users.getAllUsers();
     console.log(user4);
 
-    console.log("Get - USER5");
+    console.log("GET - USER5");
     const user5 = await users.get(createuser1._id);
     console.log(user5);
 
-    console.log("Delete - USER5"); //should be left with 5 in the db
+    console.log("DELETE - USER5"); //should be left with 5 in the db
     const user6 = await users.remove(createuser1._id.toString());
     console.log(user6);
 
-    console.log("Update - USER5");
+    console.log("UPDATE - USER5");
     const user7 = await users.update(createuser2._id, "Janelle", "Rosa", "jrosa235@gmail.com", 27, "5567568366");
     console.log(user7);
 
-    console.log("Update Username - USER5");
+    console.log("UPDATE USERNAME - USER5");
     const user8 = await users.editUsername(createuser2._id, "AforEffort");
     console.log(user8);
 
