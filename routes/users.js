@@ -5,8 +5,12 @@ const {
 } = require("mongodb");
 const users = require("../data/users");
 const properties = require("../data/property");
-
 const xss = require("xss");
+const popup = require('node-popup');
+const {prompt} = require('node-popup');
+const { remove } = require("../data/users");
+
+
 
 
 router.get("/", async (req, res) => {
@@ -376,11 +380,11 @@ router.get("/editUsername", async (req, res) => {
 router.post("/editUsername", async (req, res) => {
   try {
     let id = req.session.user.id;
-    console.log(id);
+    // console.log(id);
     let oldusername = xss(req.body.username);
-    console.log("Username:" + oldusername);
+    // console.log("Username:" + oldusername);
     let newUsername = xss(req.body.newUsername);
-    console.log("New Username:" + newUsername);
+    // console.log("New Username:" + newUsername);
 
     // const userId = await users.get(id);
     // console.log(userId);
@@ -404,10 +408,11 @@ router.post("/editUsername", async (req, res) => {
     } else {
       if (req.session.user) { //render -- handlebars
         let edit = await users.editUsername(id, xss(newUsername));
-        res.status(200).render('editUsername', {
-          message: "Successfully Updated User"
-        })
-        // res.status(200).json();
+
+        // res.status(200).render('editUsername', {
+        //   message: "Successfully Updated User"
+        // })
+        res.status(200).redirect("/");
       } else {
         res.status(400).render('private', {
           error: 'Could not load the description'
@@ -419,19 +424,30 @@ router.post("/editUsername", async (req, res) => {
       error: 'Could not update user'
     });
   }
-
 });
 
-// router.get("/deleteAccount", async (req, res) => {
-//   if (req.session.user) { //render -- handlebars
-//   await users.remove(req.session.id);
-//   confirm("Are you sure you want to delete this account?")
-//   } else {
-//     res.status(400).render('private', {
-//       error: 'Could not load the description'
-//     });
-//   }
-// });
+
+router.get("/delete", async (req, res) => {
+  if (req.session.user) { //render -- handlebars
+    const remove= await users.remove(req.session.user.id);
+    req.session.destroy();
+    res.redirect("/");
+  } else {
+    res.status(400).render('error', {
+      error: 'Could not load the description'
+    });
+  }
+});
+router.get("/confirmDelete", async (req, res) => {
+  if (req.session.user) { //render -- handlebars
+    res.status(200).render('delete');
+  } else {
+    res.status(400).render('error', {
+      error: 'Could not load the description'
+    });
+  }
+});
+
 router.get("/logout", async (req, res) => {
   req.session.destroy();
   // res.send('Logged out');

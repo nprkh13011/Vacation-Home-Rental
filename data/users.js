@@ -360,31 +360,31 @@ const exportedMethods = {
   // if the user wants to edit their password -- then that updates all the data
   async editUsername(id, username) {
     const userCollection = await users();
-    console.log("edit-1")
+    // console.log("edit-1")
     if (!id) {
       throw "ERROR: MUST PROVIDE ID OF USER!";
     }
-    console.log("edit-2")
+    // console.log("edit-2")
 
     if (typeof id !== "string") {
       throw "ERROR: MUST BE A STRING";
     }
-    console.log("edit-3")
+    // console.log("edit-3")
 
     id = id.trim()
     if (!ObjectId.isValid(id)) {
       throw "ERROR: NOT A VALID ID - DOESN'T EXIST!";
     }
     try {
-      console.log("edit-4")
+      // console.log("edit-4")
       let user = await userCollection.findOne({
         _id: ObjectId(id.trim())
       });
-      console.log("edit-5")
+      // console.log("edit-5")
       if (!user) {
         throw "ERROR: USERNAME DOESNT EXIST";
       }
-      console.log("edit-6")
+      // console.log("edit-6")
       let updateI = await userCollection.updateOne({
         _id: ObjectId(id.trim()),
       }, {
@@ -398,7 +398,7 @@ const exportedMethods = {
     } catch (e) {
       console.log(e);
     }
-    console.log("edit-7")
+    // console.log("edit-7")
     return await this.get(id.trim());
   }
 };
