@@ -1,6 +1,6 @@
 # CS546 Final Project - Rent N' Care!
-An application designed to help users book affordable places that also give the best experience!
-<br> Rent N' Care was created using **HTML(handlebars)**, **CSS**, **Bootstrap**, **Node.js**, & **Express**
+- An application designed to help users book affordable places that also give the best experience!
+- Rent N' Care was created using **HTML(handlebars)**, **CSS**, **Bootstrap**, **Node.js**, & **Express**
 
 # How to Set Up Application:
 Run `npm i` or `npm install` in order to install all the required libraries for this project
