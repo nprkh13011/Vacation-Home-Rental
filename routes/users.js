@@ -373,7 +373,7 @@ router.get("/editUsername", async (req, res) => {
 //edit username in account ---- DOESN'T WORK
 router.post("/editUsername", async (req, res) => {
   try {
-    let id = req.session.user.id;
+    let id = xss(req.session.user.id);
     // console.log(id);
     let oldusername = xss(req.body.username);
     // console.log("Username:" + oldusername);
@@ -423,7 +423,7 @@ router.post("/editUsername", async (req, res) => {
 
 router.get("/delete", async (req, res) => {
   if (req.session.user) { //render -- handlebars
-    const remove= await users.remove(req.session.user.id);
+    const remove= await users.remove(xss(req.session.user.id));
     req.session.destroy();
     res.redirect("/");
   } else {
